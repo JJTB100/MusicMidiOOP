@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Midi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,9 @@ namespace Music
         public override void Play()
         {
             NoteOn noteOn = new NoteOn(this);
+            NoteOff noteOff = new NoteOff(this);    
             noteOn.Send();
+            noteOff.Send();
         }
     }
 }

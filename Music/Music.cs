@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
+using NAudio.Midi;
 namespace Music
 {
     class Music
     {
+
+        
+
         List<Note> Notes = new List<Note>();
         public void Play()
         {
@@ -30,6 +28,7 @@ namespace Music
                 lineArr = line.Split(" ");
 
                 Notes.Add(new Note(int.Parse(lineArr[0]), int.Parse(lineArr[1])));
+
             }
 
         }

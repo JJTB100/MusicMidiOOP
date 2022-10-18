@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Music": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\JJTB\\source\\repos\\Music\\Music"
+    }
+  }
+}

@@ -11,6 +11,8 @@ namespace Music
 {
     class MidiEvent
     {
+        MidiOut midi = new MidiOut(0);
+
         // the bytes that are sent as MIDI data
         protected byte[] buffer = new byte[3];
 
@@ -22,9 +24,15 @@ namespace Music
         /// </summary>
         public virtual void Send()
         {
-            MidiOut midi = new MidiOut(0);
+            
+            midi.SendBuffer(buffer);
+            
 
-            Console.WriteLine($"Not implemented yet: sending midi data {buffer}");
+            for (int i = 0; i < 3; i++)
+            {
+                Console.Write($"{buffer[i]}");
+            }
+            Console.WriteLine();
         }
     }
 }
