@@ -11,17 +11,17 @@ namespace Music
     {
         static void Main(string[] args)
         {
-            /*for (int device = 0; device < MidiOut.NumberOfDevices; device++)
+            for (int device = 0; device < MidiOut.NumberOfDevices; device++)
                 
             {
                 
                 Console.WriteLine(MidiOut.DeviceInfo(device).ProductId);
                 
-            }*/
+            }
+            MidiOut midi = new MidiOut(0);
 
-           
 
-            Music masterpiece = new Music("Music.txt");
+            Music masterpiece = new Music("Music.txt", midi);
             masterpiece.Play();
         }
     }

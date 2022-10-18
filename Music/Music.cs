@@ -17,7 +17,7 @@ namespace Music
             }
         }
 
-        public Music(string Filename)
+        public Music(string Filename, MidiOut midi)
         {
             Console.WriteLine($"Loading file from {Filename}");
             foreach (string line in File.ReadAllLines(Filename))
@@ -27,7 +27,7 @@ namespace Music
                 Console.WriteLine(line);
                 lineArr = line.Split(" ");
 
-                Notes.Add(new Note(int.Parse(lineArr[0]), int.Parse(lineArr[1])));
+                Notes.Add(new Note(int.Parse(lineArr[0]), int.Parse(lineArr[1]), midi));
 
             }
 

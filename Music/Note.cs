@@ -9,21 +9,24 @@ namespace Music
 {
     class Note : MusicalNotation
     {
-        public Note(int notenum, int volume)
+        MidiOut midi;
+        public Note(int notenum, int time, MidiOut midi)
         {
             NoteNumber = notenum; 
-            Volume = volume;
+            Time = time;
+            this.midi = midi;
         }
 
         public int NoteNumber;
         
-        public int Volume;
+        public int Time;
         public override void Play()
         {
             NoteOn noteOn = new NoteOn(this);
             NoteOff noteOff = new NoteOff(this);    
-            noteOn.Send();
-            noteOff.Send();
+            noteOn.Send(midi);
+            System.Threading.Thread.Sleep(Time * 1000);
+            noteOff.Send(midi);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Music
 {
     class MidiEvent
     {
-        MidiOut midi = new MidiOut(0);
+        
 
         // the bytes that are sent as MIDI data
         protected byte[] buffer = new byte[3];
@@ -22,7 +22,7 @@ namespace Music
         /// <summary>
         /// Send MIDI data
         /// </summary>
-        public virtual void Send()
+        public virtual void Send(MidiOut midi)
         {
             
             midi.SendBuffer(buffer);
