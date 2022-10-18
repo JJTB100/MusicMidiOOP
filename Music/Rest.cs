@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NAudio.Midi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,16 @@ namespace Music
 {
     class Rest : MusicalNotation
     {
+        
+        public Rest(int time)
+        {
+            
+            Time = time;
+            
+        }
+
+
+
     }
 }
 
