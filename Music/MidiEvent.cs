@@ -14,25 +14,19 @@ namespace Music
         
 
         // the bytes that are sent as MIDI data
-        protected byte[] buffer = new byte[3];
+        protected byte[] buffer = new byte[3] { 0, 0, 0};
 
         // there are 16 channels to choose from. Channel 9 is percussion
-        private int Channel;
+        protected int Channel;
 
         /// <summary>
         /// Send MIDI data
         /// </summary>
         public virtual void Send(MidiOut midi)
         {
-            
+            Console.WriteLine("[{0}]", string.Join(", ", buffer));
             midi.SendBuffer(buffer);
             
-
-            for (int i = 0; i < 3; i++)
-            {
-                Console.Write($"{buffer[i]}");
-            }
-            Console.WriteLine();
         }
     }
 }

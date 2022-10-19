@@ -11,12 +11,12 @@ namespace Music
     {
         public int NoteNumber;
 
-        public int Time;
+        public int Duration;
 
         protected MidiOut midi;
         public virtual void Play()
         {
-            System.Threading.Thread.Sleep(Time * 100);
+            System.Threading.Thread.Sleep(Duration * 100);
 
         }
  

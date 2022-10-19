@@ -8,6 +8,11 @@ namespace Music
 {
     class ProgramChange : MidiEvent
     {
-        int Instrument;
+        public ProgramChange(int channel)
+        {
+            buffer[0] = (byte)channel;
+        }
+        
+       
     }
 }

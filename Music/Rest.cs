@@ -13,7 +13,7 @@ namespace Music
         public Rest(int time)
         {
             
-            Time = time;
+            Duration = time;
             
         }
 

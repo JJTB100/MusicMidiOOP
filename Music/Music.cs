@@ -1,63 +1,124 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using NAudio.Midi;
+
 namespace Music
 {
     class Music
     {
-
-        
-
-        List<MusicalNotation> Notes = new List<MusicalNotation>();
+        List<Note> Notes = new List<Note>();
         public void Play()
         {
             Console.WriteLine($"Playing...");
-            foreach (MusicalNotation n in Notes)
+            foreach (Note n in Notes)
             {
                 n.Play();
+                Console.WriteLine($"Playing note: {n}");
             }
         }
 
-        public string[] lineArr = new string[2];
-        public string[][] NoteArr = new string[2][];
-       
+        public int NoteToNumber(char noteName, bool flat, bool sharp, int octave)
+        {
+            int noteNumber = 0;
+            switch (noteName)
+            {
+                case 'C':
+                    noteNumber = 0;
+                    break;
+                case 'D':
+                    noteNumber = 2;
+                    break;
+                case 'E':
+                    noteNumber = 4;
+                    break;
+                case 'F':
+                    noteNumber = 5;
+                    break;
+                case 'G':
+                    noteNumber = 7;
+                    break;
+                case 'A':
+                    noteNumber = 9;
+                    break;
+                case 'B':
+                    noteNumber = 11;
+                    break;
+            }
+
+            // decrease if flat
+            if (flat)
+            {
+                noteNumber--;
+            }
+
+            // increase if sharp
+            if (sharp)
+            {
+                noteNumber++;
+            }
+
+            return noteNumber + (octave * 12);
+        }
 
         public Music(string Filename, MidiOut midi)
         {
             Console.WriteLine($"Loading file from {Filename}");
-            foreach (string line in File.ReadAllLines(Filename))
+            // load from the file
+            /*
+             * example: 
+// C major scale
+C4 D E F G A B C5:2
+// F major scale
+F4 G A Bb C5 D E F:2
+// G major scale
+G A B C D E F# G:2
+             * */
+
+            ProgramChange instrument = new ProgramChange(0x99);
+            instrument.Send(midi);
+            
+            string fileContents = File.ReadAllText(Filename);
+
+
+
+            // remove the comments
+            fileContents = Regex.Replace(fileContents, @"\/\/.*", "");
+
+            int octave = 4;
+            // extract the notes
+            foreach (Match m in Regex.Matches(fileContents, @"([A-G])([b#])*(\d)*(:(\d))*"))
             {
-                
+                // get the note name
+                string note = m.Groups[1].Value;
 
-                Console.WriteLine(line);
-                
-                lineArr = line.Split(',');
-
-                for (int t=0; t<lineArr.Length; t++)
+                // get the octave
+                if (m.Groups[3].Value.Length > 0)
                 {
-                    NoteArr[t] = lineArr[t].Split(" ");
-                }
-                
-                    
-
-
-                for (int n = 0; n < NoteArr.Length; n++)
-                {
-                    if (NoteArr[n][0] == "00")
-                    {
-                        Notes.Add(new Rest(int.Parse(NoteArr[n][1])));
-                    }
-                    else if (int.Parse(NoteArr[n][0]) > 21)
-                    {
-                        Notes.Add(new Note(int.Parse(NoteArr[n][0]), int.Parse(NoteArr[n][1]), midi));
-                    }
+                    octave = int.Parse(m.Groups[3].Value);
                 }
 
+                // get flat or sharp
+                bool flat = m.Groups[2].Value == "b";
+                bool sharp = m.Groups[2].Value == "#";
 
 
+                // get duration
+                int Duration = 1;
+                if (m.Groups[5].Value.Length > 0)
+                {
+                    Duration = int.Parse(m.Groups[5].Value);
+                }
 
-
-
+                Notes.Add(new Note(NoteToNumber(note[0], flat, sharp, octave), Duration, midi));
+                //Console.WriteLine($"Note: {note} Octave: {octave}: Number: {n.NoteNumber} Duration: {n.Duration}");
             }
+            //Console.WriteLine(fileContents);
+
 
         }
     }
