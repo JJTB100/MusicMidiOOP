@@ -79,7 +79,7 @@ F4 G A Bb C5 D E F:2
 G A B C D E F# G:2
              * */
 
-            ProgramChange instrument = new ProgramChange(0x99);
+            ProgramChange instrument = new(0x99);
             instrument.Send(midi);
             
             string fileContents = File.ReadAllText(Filename);
